@@ -1,0 +1,43 @@
+title: Suricata Potential C2 Command
+id: 12345678-90ab-cdef-1234-567890abcdef
+status: stable
+description: Detects potential Command and Control beaconing activity based on Suricata alert signature.
+author: Troy Williams
+logsource:
+  product: suricata
+  service: eve
+  category: network_traffic
+detection:
+  selection:
+    event_type: "alert"
+    alert.signature: "C2 Activity - Possible command in HTTP body"
+  condition: selection
+fields:
+  - @timestamp
+  - src_ip
+  - dest_ip
+  - alert.signature
+  - http.http_request_body_printable
+  - flow.bytes_toserver
+  - flow.bytes_toclient
+  - host.name
+level: high
+tags:
+  - attack.execution
+  - attack.t1059
+  - attack.command_and_scripting_interpreter
+  - suricata
+  - c2
+metadata:
+  tactic: execution
+  technique: Command_and_Scripting_Interpreter
+  technique_id: T1059
+  confidence: high
+  vendor: Suricata
+  created: 2025-07-16
+  author: Troy Williams
+falsepositives:
+  - Developer tools transmitting test commands
+  - Admin scripts issuing benign system commands
+references:
+  - https://attack.mitre.org/techniques/T1059

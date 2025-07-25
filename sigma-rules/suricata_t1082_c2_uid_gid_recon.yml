@@ -1,0 +1,42 @@
+title: Suricata C2 Recon Output Detected (UID/GID)
+id: d70f1fbc-9f10-4f5a-b8ab-01a22210fabc
+status: stable
+description: Detects UID/GID reconnaissance output exfiltrated via HTTP as indicated by a Suricata signature.
+author: Troy Williams
+logsource:
+  product: suricata
+  service: eve
+  category: network_traffic
+detection:
+  selection:
+    event_type: "alert"
+    alert.signature: "C2 Recon - UID/GID info returned"
+  condition: selection
+fields:
+  - @timestamp
+  - src_ip
+  - dest_ip
+  - alert.signature
+  - http.http_request_body_printable
+  - flow.bytes_toserver
+  - flow.bytes_toclient
+  - host.name
+level: high
+tags:
+  - attack.discovery
+  - attack.t1082
+  - suricata
+  - c2
+  - uid_gid
+metadata:
+  tactic: Discovery
+  technique: System_Information_Discovery
+  technique_id: T1082
+  confidence: high
+  vendor: Suricata
+  created: 2025-07-16
+  author: Troy Williams
+falsepositives:
+  - Testing tools that print UID/GID over HTTP
+references:
+  - https://attack.mitre.org/techniques/T1082/

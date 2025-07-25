@@ -1,0 +1,44 @@
+title: Suricata C2 Obfuscation Detected (Base64 in HTTP Body)
+id: 9a1b35a6-7c4d-41d6-a083-2d5d6a8c5b39
+status: stable
+description: Detects potential Command and Control activity using Base64-encoded strings in HTTP response body, indicating possible obfuscation.
+author: Troy Williams
+logsource:
+  product: suricata
+  service: eve
+  category: network_traffic
+detection:
+  selection:
+    event_type: "alert"
+    alert.signature: "C2 Obfuscation - Base64 encoded string in HTTP body"
+  condition: selection
+fields:
+  - @timestamp
+  - src_ip
+  - dest_ip
+  - alert.signature
+  - http.http_response_body_printable
+  - flow.bytes_toserver
+  - flow.bytes_toclient
+  - host.name
+level: high
+tags:
+  - attack.defense_evasion
+  - attack.t1027
+  - attack.obfuscated_files_or_information
+  - suricata
+  - c2
+  - base64
+metadata:
+  tactic: defense_evasion
+  technique: Obfuscated_Files_or_Information
+  technique_id: T1027
+  confidence: high
+  vendor: Suricata
+  created: 2025-07-16
+  author: Troy Williams
+falsepositives:
+  - Legitimate file transfers using base64 encoding
+  - Web APIs that respond with base64-formatted content
+references:
+  - https://attack.mitre.org/techniques/T1027/

@@ -1,0 +1,44 @@
+title: Suricata C2 Exfiltration Detected (uname Output in HTTP Body)
+id: 6b7e076f-d22f-4d1f-a2c7-5c3dc0172b8a
+status: stable
+description: Detects potential system information exfiltration via HTTP body, such as Linux `uname` output. This may indicate reconnaissance or exfiltration activity by malware or a backdoor.
+author: Troy Williams
+logsource:
+  product: suricata
+  service: eve
+  category: network_traffic
+detection:
+  selection:
+    event_type: "alert"
+    alert.signature: "C2 Exfiltration - uname output detected in HTTP body"
+  condition: selection
+fields:
+  - @timestamp
+  - src_ip
+  - dest_ip
+  - alert.signature
+  - http.http_request_body_printable
+  - flow.bytes_toserver
+  - flow.bytes_toclient
+  - host.name
+level: high
+tags:
+  - attack.exfiltration
+  - attack.t1071
+  - attack.application_layer_protocol
+  - suricata
+  - c2
+  - exfiltration
+metadata:
+  tactic: exfiltration
+  technique: Application Layer Protocol
+  technique_id: T1071
+  confidence: high
+  vendor: Suricata
+  created: 2025-07-17
+  author: Troy Williams
+falsepositives:
+  - Debugging tools or legitimate applications sending system data
+  - Monitoring agents reporting host metadata
+references:
+  - https://attack.mitre.org/techniques/T1071/

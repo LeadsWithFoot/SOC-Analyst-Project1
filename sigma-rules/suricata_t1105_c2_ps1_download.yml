@@ -1,0 +1,44 @@
+title: Suricata C2 Tool Transfer Detected (PowerShell Script Download)
+id: 2fc5ae23-84cf-4aaf-b84d-eebca0d81e42
+status: stable
+description: Detects potential Command and Control activity via download of PowerShell (.ps1) scripts over HTTP, which may indicate ingress tool transfer.
+author: Troy Williams
+logsource:
+  product: suricata
+  service: eve
+  category: network_traffic
+detection:
+  selection:
+    event_type: "alert"
+    alert.signature: "C2 Tool Transfer - Powershell script (.ps1) file download"
+  condition: selection
+fields:
+  - @timestamp
+  - src_ip
+  - dest_ip
+  - alert.signature
+  - http.uri
+  - flow.bytes_toserver
+  - flow.bytes_toclient
+  - host.name
+level: high
+tags:
+  - attack.command_and_control
+  - attack.t1105
+  - attack.ingress_tool_transfer
+  - suricata
+  - powershell
+  - c2
+metadata:
+  tactic: command_and_control
+  technique: Ingress_Tool_Transfer
+  technique_id: T1105
+  confidence: high
+  vendor: Suricata
+  created: 2025-07-17
+  author: Troy Williams
+falsepositives:
+  - Legitimate administrative PowerShell script downloads
+  - Internal IT tools or update systems using .ps1 files
+references:
+  - https://attack.mitre.org/techniques/T1105/
