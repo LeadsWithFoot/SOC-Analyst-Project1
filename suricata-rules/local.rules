@@ -1,0 +1,17 @@
+# Detects the string "cmd" in traffic indicating possible command execution attempt
+alert http any any -> any any (msg:"C2 Activity - Possible command in HTTP body"; flow:to_client, established; http.response_body; content:"cmd"; nocase; classtype:trojan-activity; sid:1002002; rev:2; metadata: tactic execution, technique T1059, technique_name Command_and_Scripting_Interpreter;)
+
+# Detects execution command "whoami" returned to attacker in HTTP response
+alert http any any -> any any (msg:"C2 Activity - whoami in HTTP body"; flow:to_client, established; http.response_body; content:"whoami"; nocase; classtype:trojan-activity; sid:1003211; rev:1; metadata: tactic execution, technique T1059, technique_name Command_and_Scripting_Interpreter;)
+
+# Detects reconnaissance output being exfiltrated via HTTP request body (UID/GID)
+alert http any any -> any any (msg:"C2 Recon - UID/GID info returned"; flow:to_server, established; http.request_body; content:"uid"; content:"gid"; nocase; classtype:attempted-recon; sid:1003222; rev:1; metadata: tactic discovery, technique T1082, technique_name System_Information_Discovery;)
+
+# Detects possible obfuscation using Base64-encoded strings in HTTP response bodies
+alert http any any -> any any (msg:"C2 Obfuscation - Base64 encoded string in HTTP body"; flow:to_client, established; http.response_body; pcre:"/([A-Za-z0-9+/]{16,}={0,2})/s"; classtype:attempted-user; sid:1000019; rev:1; metadata: tactic defense-evasion, technique T1027, technique_name Obfuscated_Files_or_Information;)
+
+# Detects download of PowerShell script (.ps1) via HTTP URI - ingress tool transfer
+alert http any any -> any any (msg:"C2 Tool Transfer - Powershell script (.ps1) file download"; flow:to_server, established; http.uri; content:".ps1"; nocase; classtype:trojan-activity; sid:1003401; rev:1; metadata: tactic command-and-control, technique T1105, technique_name Ingress_Tool_Transfer;)
+
+# Detects exfiltration of system data (e.g., uname output) in HTTP request body
+alert http any any -> any any (msg:"C2 Exfiltration - uname output detected in HTTP body"; flow:to_server, established; http.request_body; content:"Linux"; content:"6.1"; content:"vader"; nocase; classtype:attempted-recon; sid:1000044; rev:1; metadata: tactic exfiltration, technique T1071, technique_name Application_Layer Protocol;)
