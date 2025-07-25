@@ -3,7 +3,6 @@ This project simulates a real-world SOC environment using open source tools to d
 The lab integrates network and system monitoring tools with SIEM to enhance detection capabilities and map alerts to the MITRE ATT&CK framework.
 
 Tools:
--Zeek
 -Suricata
 -Filebeat
 -Elasticsearch
