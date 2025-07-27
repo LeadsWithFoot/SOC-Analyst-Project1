@@ -31,6 +31,6 @@ This folder contains the custom attacker-side tools used to simulate command-and
 
 ### 📎 Related
 
-- [Custom Suricata Rules](../suricata_rules/)
-- [Detection Report (PDF)](../Detection_Report.pdf)
-- [Sigma Rules](../sigma_rules/)
+- [Custom Suricata Rules](../suricata-rules/)
+- [Detection Report (PDF)](../mitre-report.pdf)
+- [Sigma Rules](../sigma-rules/)
