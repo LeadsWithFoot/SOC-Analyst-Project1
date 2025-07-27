@@ -16,3 +16,5 @@ This report demonstrates how detection rules and visualizations can be used to m
 - Suricata
 - Filebeat + Elasticsearch + Kibana
 - MITRE ATT&CK Framework
+- Rust, Python, Bash
+- Flask
